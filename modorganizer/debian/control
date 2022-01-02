@@ -1,0 +1,12 @@
+Source: modorganizer
+Maintainer: velorums <velorums@gmail.com>
+Section: games
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: build-essential, debhelper (>= 9), ccache, cmake, libboost-locale-dev, libboost-program-options-dev, libboost-thread-dev, libfmt-dev, qtbase5-dev, qtdeclarative5-dev, qtwebengine5-dev, libqt5websockets5-dev, liblz4-dev, zlib1g-dev
+
+Package: modorganizer
+Architecture: any
+Depends: ${shlibs:Depends}, ${games:Depends}, p7zip-full, libboost-locale1.74.0, libboost-program-options1.74.0, libboost-thread1.74.0, libfmt7, libqt5concurrent5, libqt5network5, libqt5qml5, libqt5quick5, libqt5quickwidgets5, libqt5webenginewidgets5, libqt5widgets5, libqt5websockets5liblz4-1, zlib1g
+Description: manage game mod collections
+ Mod Organizer 2 is specifically designed for people who like to experiment with game mods and thus need an easy and reliable way to install and uninstall them.

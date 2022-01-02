@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+# To have a literal space for the subst command.
+SPACE = $(subst ,, )
+
+# Dir for all the build dirs.
+COMPONENT_BUILDDIR_PREFIX = build
+# CMake projects in dependency order.
+COMPONENTS = uibase githubpp bsatk esptk modorganizer installer_manual game_fallout3
+
+%:
+	dh $@ --parallel --buildsystem=cmake --builddirectory=$(COMPONENT_BUILDDIR_PREFIX)
+
+# Configure each CMake project, give it ADDITIONAL_LINK_DIRECTORIES that points to where libraries of the rest of the projects are built.
+override_dh_auto_configure: $(patsubst %,configure_%,$(COMPONENTS))
+configure_%:
+	dh_auto_configure --builddirectory=$(COMPONENT_BUILDDIR_PREFIX)/$* --sourcedirectory=modorganizer_super/$* -- -DCMAKE_CXX_COMPILER_LAUNCHER=ccache '-DADDITIONAL_LINK_DIRECTORIES=$(subst $(SPACE),;,$(patsubst %,$(shell pwd)/$(COMPONENT_BUILDDIR_PREFIX)/%/src,$(COMPONENTS)))'
+
+# Build each CMake project.
+override_dh_auto_build: $(patsubst %,build_%,$(COMPONENTS))
+build_%:
+	dh_auto_build --builddirectory=$(COMPONENT_BUILDDIR_PREFIX)/$*
